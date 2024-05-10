@@ -7,19 +7,22 @@ type Input = {
   firstName: string;
   lastName: string;
   email: string;
-  contact: number;
+  contact: string;
   gender: 'male' | 'female' | 'other';
-  subject: Subject[];
+  subjects: Subject[];
   resume: File;
   url: string;
-  language: 'react' | 'vue';
+  library: 'react' | 'vue' | 'angular';
   about: string;
 };
 
-function isValidPhoneNum(input: number) {
+function isValidPhoneNum(input: string) {
   const regex = /^\d{10,11}$/;
   return regex.test(input);
 }
+
+const urlRegex =
+  /^(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9-]+)\.([a-zA-Z]{2,})(?:\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/;
 
 const SubmissionForm = () => {
   const {
@@ -32,7 +35,7 @@ const SubmissionForm = () => {
   const titleStyle = 'mb-2 text-lg font-bold';
 
   return (
-    <div className='px-10 py-5'>
+    <div className='px-10 py-5 sm:w-5/6 max-w-[900px] mx-auto'>
       <h1 className='text-green-800 font-bold text-3xl text-center mb-10'>
         Form in React
       </h1>
@@ -129,6 +132,7 @@ const SubmissionForm = () => {
                 type='radio'
                 value='male'
                 name='gender'
+                id='male'
                 className='mr-3'
               />
               Male
@@ -139,6 +143,7 @@ const SubmissionForm = () => {
                 type='radio'
                 value='female'
                 name='gender'
+                id='female'
                 className='mr-3'
               />
               Female
@@ -149,6 +154,7 @@ const SubmissionForm = () => {
                 type='radio'
                 value='other'
                 name='gender'
+                id='other'
                 className='mr-3'
               />
               Other
@@ -156,11 +162,11 @@ const SubmissionForm = () => {
           </div>
         </label>
 
-        <label htmlFor='subject' className='flex flex-col mt-4'>
-          <p className={titleStyle}>Subject*</p>
+        <label htmlFor='subjects' className='flex flex-col mt-4'>
+          <p className={titleStyle}>Your Best Subject</p>
           <ErrorMessage
             errors={errors}
-            name='subject'
+            name='subjects'
             render={({ message }) => (
               <p className='text-red-400 font-medium -mt-3'>{message}</p>
             )}
@@ -168,7 +174,7 @@ const SubmissionForm = () => {
           <div className='flex justify-evenly'>
             <label htmlFor='english'>
               <input
-                {...register('subject', { required: true })}
+                {...register('subjects')}
                 type='checkbox'
                 value='english'
                 id='english'
@@ -178,7 +184,7 @@ const SubmissionForm = () => {
             </label>
             <label htmlFor='maths'>
               <input
-                {...register('subject', { required: true })}
+                {...register('subjects')}
                 type='checkbox'
                 value='maths'
                 id='maths'
@@ -188,7 +194,7 @@ const SubmissionForm = () => {
             </label>
             <label htmlFor='physics'>
               <input
-                {...register('subject', { required: true })}
+                {...register('subjects')}
                 type='checkbox'
                 value='physics'
                 id='physics'
@@ -199,14 +205,80 @@ const SubmissionForm = () => {
           </div>
         </label>
 
-        <div className='mx-16 my-10 flex justify-around'>
+        <label htmlFor='resume' className='flex flex-col mt-4'>
+          <p className={titleStyle}>Upload Resume*</p>
+          <input
+            {...register('resume', {
+              // required: 'Please Upload Your Resume',
+            })}
+            placeholder=''
+            className={`${inputStyle}`}
+            type='file'
+          />
+          <ErrorMessage
+            errors={errors}
+            name='resume'
+            render={({ message }) => (
+              <p className='text-red-400 font-medium'>{message}</p>
+            )}
+          />
+        </label>
+
+        <label htmlFor='url' className='flex flex-col mt-4'>
+          <p className={titleStyle}>Enter Url*</p>
+          <input
+            {...register('url', {
+              required: 'Please Enter Your Website Url',
+              pattern: {
+                value: urlRegex,
+                message: 'Please enter a valid URL format',
+              },
+            })}
+            placeholder='Enter url'
+            className={`${inputStyle}`}
+            type='url'
+          />
+          <ErrorMessage
+            errors={errors}
+            name='url'
+            render={({ message }) => (
+              <p className='text-red-400 font-medium'>{message}</p>
+            )}
+          />
+        </label>
+
+        <label htmlFor='library' className='flex flex-col mt-4'>
+          <p className={titleStyle}>Select your favorite library choice*</p>
+          <select
+            {...register('library', {
+              required: 'Please Select Your Favorite Library',
+            })}
+            className={`${inputStyle}`}
+          >
+            <option value='react'>React</option>
+            <option value='vue'>Vue</option>
+            <option value='angular'>Angular</option>
+          </select>
+        </label>
+
+        <label htmlFor='about' className='flex flex-col mt-4'>
+          <p className={titleStyle}>About</p>
+          <textarea
+            {...register('about')}
+            placeholder='About yourself'
+            className={`${inputStyle} `}
+            rows={8}
+          />
+        </label>
+
+        <div className='my-5 sm:mx-16 sm:my-10 flex justify-around'>
           <input
             type='reset'
-            className='px-20 py-2 bg-green-600 text-white font-bold rounded-lg'
+            className='px-5 md:px-20 py-2 bg-green-600 text-white font-bold rounded-lg'
           />
           <input
             type='submit'
-            className='px-20 py-2 bg-green-600 text-white font-bold rounded-lg'
+            className='px-5 md:px-20 py-2 bg-green-600 text-white font-bold rounded-lg'
           />
         </div>
       </form>
