@@ -1,20 +1,22 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
+type Subject = 'english' | 'maths' | 'physics';
+
 type Input = {
   firstName: string;
   lastName: string;
   email: string;
   contact: number;
   gender: 'male' | 'female' | 'other';
-  subject: 'english' | 'maths' | 'physics';
+  subject: Subject[];
   resume: File;
   url: string;
   language: 'react' | 'vue';
   about: string;
 };
 
-function isValidPhoneNum(input) {
+function isValidPhoneNum(input: number) {
   const regex = /^\d{10,11}$/;
   return regex.test(input);
 }
@@ -76,6 +78,7 @@ const SubmissionForm = () => {
           <input
             {...register('email', {
               required: 'Please Enter Your Email',
+              pattern: /^\S+@\S+$/i,
             })}
             placeholder='Enter email'
             className={inputStyle}
@@ -108,6 +111,92 @@ const SubmissionForm = () => {
               <p className='text-red-400 font-medium'>{message}</p>
             )}
           />
+        </label>
+
+        <label htmlFor='gender' className='flex flex-col mt-4'>
+          <p className={titleStyle}>Gender*</p>
+          <ErrorMessage
+            errors={errors}
+            name='gender'
+            render={({ message }) => (
+              <p className='text-red-400 font-medium -mt-3'>{message}</p>
+            )}
+          />
+          <div className='flex justify-evenly'>
+            <label htmlFor='male'>
+              <input
+                {...register('gender', { required: 'Please Pick One' })}
+                type='radio'
+                value='male'
+                name='gender'
+                className='mr-3'
+              />
+              Male
+            </label>
+            <label htmlFor='female'>
+              <input
+                {...register('gender', { required: 'Please Pick One' })}
+                type='radio'
+                value='female'
+                name='gender'
+                className='mr-3'
+              />
+              Female
+            </label>
+            <label htmlFor='other'>
+              <input
+                {...register('gender', { required: 'Please Pick One' })}
+                type='radio'
+                value='other'
+                name='gender'
+                className='mr-3'
+              />
+              Other
+            </label>
+          </div>
+        </label>
+
+        <label htmlFor='subject' className='flex flex-col mt-4'>
+          <p className={titleStyle}>Subject*</p>
+          <ErrorMessage
+            errors={errors}
+            name='subject'
+            render={({ message }) => (
+              <p className='text-red-400 font-medium -mt-3'>{message}</p>
+            )}
+          />
+          <div className='flex justify-evenly'>
+            <label htmlFor='english'>
+              <input
+                {...register('subject', { required: true })}
+                type='checkbox'
+                value='english'
+                id='english'
+                className='mr-3'
+              />
+              English
+            </label>
+            <label htmlFor='maths'>
+              <input
+                {...register('subject', { required: true })}
+                type='checkbox'
+                value='maths'
+                id='maths'
+                className='mr-3'
+              />
+              Maths
+            </label>
+            <label htmlFor='physics'>
+              <input
+                {...register('subject', { required: true })}
+                type='checkbox'
+                value='physics'
+                id='physics'
+                className='mr-3'
+              />
+              Physics
+            </label>
+          </div>
         </label>
 
         <div className='mx-16 my-10 flex justify-around'>
