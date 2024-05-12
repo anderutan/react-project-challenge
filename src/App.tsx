@@ -1,6 +1,7 @@
 import SubmissionForm from './challenge/1-submission-form';
 import RandomJoke from './challenge/2-random-joke';
 import PasswordValidator from './challenge/3-password-validator';
+import IpAddressFinder from './challenge/4-ip-address-finder';
 
 function App() {
   return (
@@ -12,7 +13,10 @@ function App() {
       {/* <RandomJoke /> */}
 
       {/* Challenge 3 */}
-      <PasswordValidator />
+      {/* <PasswordValidator /> */}
+
+      {/* Challenge 4 */}
+      <IpAddressFinder />
     </div>
   );
 }
