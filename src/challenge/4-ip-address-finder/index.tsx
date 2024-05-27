@@ -54,7 +54,7 @@ const IpAddressFinder = () => {
             </p>
             <p className=' text-blue-400'>{mapData.company}</p>
           </div>
-          <div className='h-[300px] w-[350px] md:h-full md:w-5/6'>
+          <div className='h-[300px] w-[350px] md:h-full md:w-5/6 mx-auto'>
             <GoogleMap
               longitude={mapData.longitude}
               latitude={mapData.latitude}
